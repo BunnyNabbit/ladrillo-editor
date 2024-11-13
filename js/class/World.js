@@ -47,9 +47,6 @@ class World { // Cluster manager
 		map.forEach(cluster => {
 			cluster.flushChanges()
 		})
-		if (this.net && !networked) {
-			gatheract.sendMessage({ type: "addBricks", bricks: bricks.map(brick => brick.serialize("gatheract")) })
-		}
 	}
 	removeBricks(bricks, networked = false) {
 		const map = new Map()
@@ -75,9 +72,6 @@ class World { // Cluster manager
 		map.forEach(element => {
 			element.cluster.removeBricks(element.bricks)
 		})
-		if (this.net && !networked) {
-			gatheract.sendMessage({ type: "deleteBricks", uuids: bricks.map(brick => brick.uuid) })
-		}
 	}
 	removeCluster(cluster) { // ⚠: this doesn't dispose the cluster, just removes it from the world index
 		this.clusters.delete(cluster.positionKey)

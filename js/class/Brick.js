@@ -29,16 +29,7 @@ class Brick {
 			mesher: this.mesher
 		})
 	}
-	serialize(format = "gatheract") {
-		if (format === "gatheract") return {
-			position: [this.position.x, this.position.y, this.position.z],
-			rotation: this.rotation,
-			scale: [this.scale.x, this.scale.y, this.scale.z],
-			color: [this.color.r, this.color.g, this.color.b],
-			alpha: this.alpha,
-			shape: this.mesher.name,
-			uuid: this.uuid
-		}	
+	serialize() {
 	}
 }
 

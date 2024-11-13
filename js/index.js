@@ -65,7 +65,6 @@ function randomIntFromInterval(min, max) {
 
 const bricks = []
 const loadBrk = require("./loadBrk.js")
-const net = require("./net.js")(world)
 const testData = require("./testData.js")
 
 // loadBrk(testData.mythZone).bricks.forEach(brick => {
