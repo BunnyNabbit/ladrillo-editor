@@ -1,0 +1,245 @@
+function old(params) {
+	return
+	let BABYLON = require('babylonjs');
+
+	const canvas = document.getElementById("renderCanvas"); // Get the canvas element
+	const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+
+	const tmpMODE = "Brick Hill"
+
+	function detectMobile() {
+		if (navigator.userAgent.toLowerCase().match(/mobile/i)) {
+			return true
+		} else return false
+	}
+
+	let cameraCursor = undefined
+
+	createBrickMesh = function (position, scale, color, collision, outline) { // Creates mesh for a brick
+		if (typeof color === "string") color = new BABYLON.Color4.FromHexString(color + "ff")
+
+		let x = 1 - (scale.x / 1)
+		let y = 1 - (scale.z / 1)
+		let z = 1 - (scale.y / 1)
+		let faceUV = []
+		if (tmpMODE === "Celaria") {
+			x = Math.floor(x * 0.5)
+			y = Math.floor(y * 0.5)
+			z = Math.floor(z * 0.5)
+			faceUV[0] = new BABYLON.Vector4(x, y, 1, 1) // x, y, 1, 1 //0.001, 0.001, 0.002, 0.002
+			faceUV[1] = new BABYLON.Vector4(x, y, 1, 1) // x, y, 1, 1 //0.001, 0.001, 0.002, 0.002
+			faceUV[2] = new BABYLON.Vector4(y, z, 1, 1) // y, z, 1, 1 //0.001, 0.001, 0.002, 0.002
+			faceUV[3] = new BABYLON.Vector4(y, z, 1, 1) // y, z, 1, 1 //0.001, 0.001, 0.002, 0.002
+			faceUV[4] = new BABYLON.Vector4(z, x, 1, 1) // z, x, 1, 1 
+			faceUV[5] = new BABYLON.Vector4(z, x, 1, 1) // z, x, 1, 1 
+		} else {
+			faceUV[0] = new BABYLON.Vector4(0.001, 0.001, 0.002, 0.002) // x, y, 1, 1 //0.001, 0.001, 0.002, 0.002
+			faceUV[1] = new BABYLON.Vector4(0.001, 0.001, 0.002, 0.002) // x, y, 1, 1 //0.001, 0.001, 0.002, 0.002
+			faceUV[2] = new BABYLON.Vector4(0.001, 0.001, 0.002, 0.002) // y, z, 1, 1 //0.001, 0.001, 0.002, 0.002
+			faceUV[3] = new BABYLON.Vector4(0.001, 0.001, 0.002, 0.002) // y, z, 1, 1 //0.001, 0.001, 0.002, 0.002
+			faceUV[4] = new BABYLON.Vector4(z, x, 1, 1) // z, x, 1, 1 
+			faceUV[5] = new BABYLON.Vector4(z, x, 1, 1) // z, x, 1, 1 
+		}
+
+		let box = BABYLON.MeshBuilder.CreateBox("box", { height: scale.z, width: scale.x, depth: scale.y, faceUV: faceUV, faceColors: [color, color, color, color, color, color] }, scene);
+
+		box.position = new BABYLON.Vector3(position.x + (scale.x / 2), position.z + (scale.z / 2), position.y + (scale.y / 2))
+		box.scale = new BABYLON.Vector3(scale.x, scale.y, scale.z)
+		box.color = color
+		box.outline = outline
+		if (outline === true && glow) hl.addMesh(box, BABYLON.Color3.FromHexString(color.toHexString(color)));
+
+		// box.material = brickmat
+		return box
+	}
+	let bricks = []
+	const pressed = new Set() // Key presses
+
+	class CameraCursor {
+		constructor(scene) {
+			this.mesh = BABYLON.MeshBuilder.CreateLines("", {
+				points: [new BABYLON.Vector3(0, -1, 0), new BABYLON.Vector3(0, 1, 0), new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(-1, 0, 0), new BABYLON.Vector3(1, 0, 0), new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 0, -1), new BABYLON.Vector3(0, 0, 1)]
+			}, scene)
+
+			this.camera = new BABYLON.ArcRotateCamera("camera", 0, Math.PI / 2, 3, null, scene)
+			this.camera.parent = this.mesh // target? nah, this tends to be better, somehow.
+			this.camera.lowerRadiusLimit = 1
+			this.camera.upperRadiusLimit = 1500
+			this.camera.wheelDeltaPercentage = 0.01
+			this.camera.inertia = 0.8
+			console.log(this.camera)
+			this.camera.inputs.attached.pointers.buttons = [2] // right click only
+			this.camera.panningSensibility = 0
+			this.speed = 0.1
+		}
+
+		handleMovement() {
+			let deltaTime = (scene.deltaTime ?? 0) * this.speed
+			let dir = this.camera.getForwardRay().direction
+			let normal_dir = new BABYLON.Vector2(dir.x, dir.z).normalize()
+			let z_movement = 0
+			let y_movement = 0
+			let x_movement = 0
+			if (pressed.has("KeyA")) x_movement -= 1
+			if (pressed.has("KeyD")) x_movement += 1
+			if (pressed.has("KeyW")) z_movement += 1
+			if (pressed.has("KeyS")) z_movement -= 1
+
+			if (pressed.has("KeyE")) {
+				y_movement = 1
+			} else if (pressed.has("KeyQ")) {
+				y_movement = -1
+			}
+
+			let normal_move = new BABYLON.Vector2(x_movement, z_movement).normalize().scale(1)
+			this.mesh.position.addInPlace(new BABYLON.Vector3(
+				normal_move.y * normal_dir.x + normal_move.x * normal_dir.y,
+				y_movement,
+				normal_move.y * normal_dir.y - normal_move.x * normal_dir.x
+			).multiplyByFloats(deltaTime, deltaTime, deltaTime))
+		}
+	}
+
+	const createScene = () => {
+		// Create a basic BJS Scene object.
+		var scene = new BABYLON.Scene(engine);
+		scene.autoClear = true; // Color buffer
+		scene.autoClearDepthAndStencil = true;
+		//engine.displayLoadingUI();
+
+		// // The brick material
+		// if (tmpMODE === "Celaria") {
+		//     studs = new BABYLON.Texture("https://bunnynabbit.ddns.net/quader2.png", scene);
+
+		//     brickmat = new BABYLON.StandardMaterial("", scene);
+		//     brickmat.diffuseTexture = studs
+		//     //brickmat.diffuseTexture.level = 2
+		//     //brickmat.diffuseTexture.invertY = true
+		//     brickmat.wireframe = falsex
+		// } else {
+		//     studs = new BABYLON.Texture("https://bunnynabbit.ddns.net/numps2.png", scene);
+
+		//     brickmat = new BABYLON.StandardMaterial("", scene);
+		//     brickmat.bumpTexture = studs
+		//     brickmat.bumpTexture.level = 2
+		//     brickmat.bumpTexture.invertY = true
+		//     brickmat.wireframe = false
+		// }
+
+		// key action
+		scene.actionManager = new BABYLON.ActionManager(scene)
+		currentActions = []
+		currentActions.push(scene.actionManager.registerAction(
+			new BABYLON.ExecuteCodeAction(
+				BABYLON.ActionManager.OnKeyDownTrigger,
+				e => {
+					e = e.sourceEvent
+					if (!pressed.has(e.code)) {
+						pressed.add(e.code)
+					}
+				}
+			)
+		))
+		currentActions.push(scene.actionManager.registerAction(
+			new BABYLON.ExecuteCodeAction(
+				BABYLON.ActionManager.OnKeyUpTrigger,
+				e => {
+					e = e.sourceEvent
+					pressed.delete(e.code)
+				}
+			)
+		))
+
+
+		cameraCursor = new CameraCursor(scene)
+		cameraCursor.camera.attachControl(canvas, false)
+
+		var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0.3, 1, 0.3), scene);
+
+		return scene;
+	}
+	const scene = createScene()
+	const testData = require("./testData.js")
+	scene.defaultMaterial.bumpTexture = new BABYLON.Texture.CreateFromBase64String("data:image/png;base64," + testData.numpsTexture)
+
+	// Create utility layer the gizmos will be rendered on
+	var utilLayer = new BABYLON.UtilityLayerRenderer(scene)
+
+	// Create the gizmo
+	var positionGizmo = new BABYLON.PositionGizmo(utilLayer, 8)
+	// positionGizmo.planarGizmoEnabled = true // sadly, this doesn't behave well with snapDistance
+	positionGizmo.attachedMesh = null
+
+	// Keep the gizmo fixed to world rotation
+	positionGizmo.updateGizmoRotationToMatchAttachedMesh = false
+	positionGizmo.updateGizmoPositionToMatchAttachedMesh = true
+	positionGizmo.snapDistance = 1
+
+	function handleClick(pointerInfo) {
+		if (pointerInfo.event.button == 0) {
+			const pickedMesh = pointerInfo.pickInfo.pickedMesh
+			if (positionGizmo.attachedMesh) {
+				positionGizmo.attachedMesh.showBoundingBox = false
+				positionGizmo.attachedMesh.isPickable = true
+			}
+			if (!pickedMesh) {
+				return positionGizmo.attachedMesh = null
+			}
+			positionGizmo.attachedMesh = pickedMesh
+			positionGizmo.attachedMesh.showBoundingBox = true
+			positionGizmo.attachedMesh.isPickable = false
+		}
+	}
+
+	// if (canvas.requestPointerLock) {
+	// canvas.requestPointerLock()
+	// }
+	// canvas.focus()
+
+	// document.exitPointerLock()
+
+	scene.onPointerObservable.add((pointerInfo) => {
+		// if (pointerInfo.event.button == 2) console.log(pointerInfo.type)
+		if (pointerInfo.event.button == 2) { // hold
+			if (pointerInfo.type == 1) {
+				if (canvas.requestPointerLock) {
+					canvas.requestPointerLock()
+				}
+			} else if (pointerInfo.type == 2) { // release
+				document.exitPointerLock()
+			}
+		}
+		switch (pointerInfo.type) {
+			case BABYLON.PointerEventTypes.POINTERDOWN:
+				handleClick(pointerInfo)
+				break;
+			case 4:
+				if (pointerInfo.event.buttons === 3) break
+				handleClick(pointerInfo)
+				break
+		}
+	})
+
+	const loadBrk = require("./loadBrk.js")
+	bricks.push(createBrickMesh(new BABYLON.Vector3(-50, -50, 0), new BABYLON.Vector3(100, 100, 1), "#c0c0c0", false))
+
+	addBlock.onclick = () => {
+		const pos = cameraCursor.mesh.position
+		bricks.push(createBrickMesh(new BABYLON.Vector3(Math.round(pos.x), Math.round(pos.z), Math.round(pos.y)), new BABYLON.Vector3(1, 1, 1), "#c0c0c0", false))
+	}
+
+	// loadBrk(testData.mythZone).bricks.forEach(brick => {
+	// 	bricks.push(createBrickMesh(new BABYLON.Vector3(brick.position.x, brick.position.y, brick.position.z), new BABYLON.Vector3(brick.scale.x, brick.scale.y, brick.scale.z), brick.color, false))
+	// })
+
+	// Register a render loop to repeatedly render the scene
+	engine.runRenderLoop(function () {
+		cameraCursor.handleMovement()
+		scene.render()
+	})
+
+	// Watch for browser/canvas resize events
+	window.addEventListener("resize", function () {
+		engine.resize()
+	})
+}

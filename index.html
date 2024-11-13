@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		* {
+			font-family: Arial;
+		}
+
+		body {
+			overflow: hidden;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		.side {
+			width: 255px;
+			position: fixed;
+			z-index: 1;
+			top: 68px;
+			padding-top: 12px;
+			padding-left: 12px;
+			padding-right: 12px;
+			padding-bottom: 136px;
+			left: 0;
+			background: linear-gradient(to top, rgba(0, 0, 0, 0.479) 1%, #2020206c 100%);
+			overflow: hidden;
+			height: -moz-available;
+			height: -webkit-fill-available;
+			height: fill-available;
+			overflow-x: hidden;
+			overflow-y: auto;
+			;
+		}
+
+		.top {
+			height: 68px;
+			width: 100%;
+			position: fixed;
+			z-index: 1;
+			top: 0;
+			left: 0;
+			right: 0;
+			background-color: rgb(126, 126, 126);
+			background: linear-gradient(to top, rgba(0, 0, 0, 0.479) 1%, #2020206c 100%);
+			overflow: hidden;
+		}
+
+		.status {
+			height: 16px;
+			width: 100%;
+			position: fixed;
+			z-index: 1;
+			top: 0;
+			left: 0;
+			background-color: rgb(126, 126, 126);
+			background: linear-gradient(to top, rgba(0, 0, 0, 0.479) 1%, #2020206c 100%);
+			overflow: hidden;
+		}
+
+		.instances {
+			height: 360px;
+			position: static;
+			background: linear-gradient(to top, rgba(0, 0, 0, 0.479) 1%, #2020206c 100%);
+			overflow: hidden;
+			overflow-x: hidden;
+			overflow-y: auto;
+			list-style-type: none;
+			resize: vertical;
+		}
+
+		.nol {
+			padding-left: 4px;
+			padding-right: 4px;
+			list-style-type: none;
+			scrollbar-width: thin;
+		}
+
+		span {
+			padding-left: 3px;
+			color: #ffffff;
+		}
+
+		#renderCanvas {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			touch-action: none;
+		}
+
+		.top>button {
+			background-color: transparent;
+			border: unset;
+		}
+
+		.side {
+			color: white;
+		}
+
+		.hidden {
+			display: none;
+		}
+	</style>
+
+	<title>Ladrillo Editor</title>
+</head>
+
+<body>
+	<div class="top">
+		<!-- <h1>Toolbar</h1> -->
+		<button id="addBrick" accesskey="q"><img src="./add.png" height="64px" width="64px" title="Add Brick"></button>
+		<button id="moveTool" accesskey="1"><img src="./move.png" height="64px" width="64px" title="Move tool"></button>
+		<button id="sizeTool" accesskey="2"><img src="./size.png" height="64px" width="64px" title="Size tool"></button>
+		<button id="deleteSelectedBricks" accesskey="5"><img src="./delete.png" height="64px" width="64px" title="Delete selected bricks"></button>
+		<button id="destroyEverything" accesskey="6"><img src="./delete.png" height="64px" width="64px" title="Delete everything"></button>
+		<!-- <button id="saveButton" accesskey="5"><img src="./save.png" height="64px" width="64px" title="Save bricks"></button> -->
+		<button id="loadButton" accesskey="7"><img src="./load.png" height="64px" width="64px" title="Import bricks"></button>
+		<!-- <button id="dragTool" accesskey="3"><img src="./drag.png" height="64px" width="64px" title="Drag tool"></button> -->
+		<div class="side">
+			<!-- <h1>Instances</h1> -->
+			<div class="instances" style="display: none;">
+				<ul class="nol">
+					<!-- <li class="nol" draggable="true"><img class="noSelect ico" src="ui/object1.png" width="16" height="16"><span>brick0</span></li>
+						<li class="nol sep"></li>
+						<li class="nol" draggable="true"><img class="noSelect ico" src="ui/object1.png" width="16" height="16"><span>brick1</span></li>
+						<li class="nol sep"></li>
+						<li class="nol" draggable="true"><img class="noSelect ico" src="ui/object1.png" width="16" height="16"><span>brick2</span></li>
+						<li class="nol sep"></li>
+						<li class="nol" draggable="true"><img class="noSelect ico" src="ui/new.png" width="16" height="16"><span></span></li> -->
+				</ul>
+			</div>
+
+			<div id="propsPanel" class="hidden">
+				<h1>Selection</h1>
+				<button id="cloneSelection">Clone</button><br>
+				<label for="color">Color:</label>
+				<input type="color" id="propColor" name="color" value="#ff0000">
+			</div>
+			<!-- <label for="fname">Position:</label><br>
+			<input type="text" id="propPosX" placeholder="X" size="1">
+			<input type="text" id="propPosY" placeholder="Y" size="1">
+			<input type="text" id="propPosZ" placeholder="Z" size="1"><br>
+			<label for="fname">Scale:</label><br>
+			<input type="text" id="propScaleX" placeholder="X" size="1">
+			<input type="text" id="propScaleY" placeholder="Y" size="1">
+			<input type="text" id="propScaleZ" placeholder="Z" size="1"><br> -->
+
+		</div>
+	</div>
+	<canvas id="renderCanvas"></canvas>
+	<script src="./vend/musquito-3.0.0.min.js?v1"></script>
+	<script src="https://gatheract.com/api.js"></script>
+	<script src="./js/bundle.js?v4"></script>
+</body>
+
+</html>
