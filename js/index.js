@@ -277,7 +277,7 @@ fileInput.addEventListener('change', async (event) => {
 		diskSound.play()
 		const data = await event.target.files[0].text()
 		loadBrk(data).bricks.forEach(brick => {
-			const bricc = new Brick({ shape: brick.shape })
+			const bricc = new Brick({ shape: brick.shape, name: brick.name })
 			bricc.position = new BABYLON.Vector3(brick.position.y + (brick.scale.y / 2), brick.position.z + (brick.scale.z / 2), brick.position.x + (brick.scale.x / 2))
 			bricc.scale = new BABYLON.Vector3(brick.scale.y, brick.scale.z, brick.scale.x)
 			bricc.color = BABYLON.Color3.FromHexString(brick.color)
