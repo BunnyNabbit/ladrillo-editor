@@ -354,6 +354,19 @@ destroyEverything.onclick = () => {
 		processingSound.volume = 0
 	}
 }
+saveButton.onclick = () => {
+	const serializeWorld = require("./saveBrk.js")
+	function download(string) { // https://stackoverflow.com/a/69581578
+		let element = document.createElement('a')
+		element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(string))
+		element.setAttribute('download', 'save.brk')
+		element.style.display = 'none'
+		document.body.appendChild(element)
+		element.click()
+		document.body.removeChild(element)
+	}
+	download(serializeWorld(world.getAllBricks()))
+}
 
 const processingSound = new Audio("https://bunnynabbit.com/audio/64processing.flac")
 processingSound.loop = true
