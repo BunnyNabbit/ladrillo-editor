@@ -65,27 +65,6 @@ function randomIntFromInterval(min, max) {
 
 const bricks = []
 const loadBrk = require("./loadBrk.js")
-const testData = require("./testData.js")
-
-// loadBrk(testData.mythZone).bricks.forEach(brick => {
-// 	const bricc = new Brick()
-// 	bricc.position = new BABYLON.Vector3(brick.position.x + (brick.scale.x / 2), brick.position.z + (brick.scale.z / 2), brick.position.y + (brick.scale.y / 2))
-// 	bricc.scale = new BABYLON.Vector3(brick.scale.x, brick.scale.z, brick.scale.y)
-// 	bricc.color = BABYLON.Color3.FromHexString(brick.color)
-// 	bricks.push(bricc)
-// })
-// world.addBricks(bricks)
-
-
-
-// const spread = 64
-// for (let i = 0; i < 500; i++) {
-// 	const brick = new Brick()
-// 	brick.position = new BABYLON.Vector3(randomIntFromInterval(-spread, spread) + 0.5, randomIntFromInterval(-spread, spread) + 0.5, randomIntFromInterval(-spread, spread) + 0.5)
-// 	brick.scale = new BABYLON.Vector3(randomIntFromInterval(1, 3), randomIntFromInterval(1, 3), randomIntFromInterval(1, 3))
-// 	brick.color = new BABYLON.Color3(Math.random(), Math.random(), Math.random())
-// 	bricks.push(brick)
-// }
 
 const GIZMO_MOVE = 1
 const GIZMO_SIZE = 2
