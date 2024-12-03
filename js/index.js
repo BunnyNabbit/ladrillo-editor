@@ -367,6 +367,22 @@ saveButton.onclick = () => {
 	}
 	download(serializeWorld(world.getAllBricks()))
 }
+createNodeLinks.onclick = () => {
+	if (activeSelection) {
+		const filteredSelection = activeSelection.bricks.filter(brick => brick.name && brick.name.toLowerCase().includes("node"))
+		filteredSelection.forEach(brick => {
+			const nodeName = brick.name.split(":")[1].split("@")[0]
+			filteredSelection.filter(ozherBrick => brick !== ozherBrick).forEach(ozherBrick => {
+				if (!ozherBrick.name.includes(nodeName)) {
+					if (ozherBrick.name.split(":")[1].split("@").length > 1) { // add comma
+						ozherBrick.name += ","
+					}
+					ozherBrick.name += nodeName
+				}
+			})
+		})
+	}
+}
 
 const processingSound = new Audio("https://bunnynabbit.com/audio/64processing.flac")
 processingSound.loop = true
