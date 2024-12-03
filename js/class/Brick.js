@@ -10,6 +10,7 @@ class Brick {
 		this.color = data.color ?? new BABYLON.Color3(0.5, 0.5, 0.5)
 		this.alpha = 1
 		this.mesher = meshers.getFromName(data.shape)
+		this.name = data.name = ""
 		// this.world = null
 	}
 	getClusterKey() {
@@ -29,7 +30,17 @@ class Brick {
 			mesher: this.mesher
 		})
 	}
-	serialize() {
+	serialize(format = "brk") {
+		if (format === "brk")  {
+			let string = `${this.position.x - (this.scale.x / 2)} ${this.position.z - (this.scale.z / 2)} ${this.position.y - (this.scale.y / 2)} ${this.scale.x} ${this.scale.z} ${this.scale.y} ${this.color.r} ${this.color.g} ${this.color.b} ${this.alpha}\r\n`
+			if (this.name) {
+				string += `	+NAME ${this.name}\r\n`
+			}
+			if (this.rotation) {
+				string += `	+ROT ${this.rotation}\r\n`
+			}
+			return string
+		}
 	}
 }
 
