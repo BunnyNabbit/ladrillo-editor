@@ -1,10 +1,12 @@
 const MesherBase = require("./MesherBase.js")
 const { scene } = require("../../scene.js")
-const nullUv = new BABYLON.Vector4(0,0,0.001, 0.001)
+const nullUv = new BABYLON.Vector4(0, 0, 0.001, 0.001)
 class CylinderMesher extends MesherBase {
+
 	constructor() {
 		super("cylinder")
 	}
+
 	createMesh(brick) {
 		const scale = brick.scale
 		let x = 1 - (scale.x / 1)

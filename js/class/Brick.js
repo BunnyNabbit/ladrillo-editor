@@ -3,6 +3,7 @@ const BrickMesher = require("./mesher/BrickMesher.js")
 const meshers = require("./mesher/index.js")
 
 class Brick {
+
 	constructor(data = {}) {
 		this.position = data.position ?? new BABYLON.Vector3(0, 0, 0)
 		this.rotation = data.rotation ?? 0
@@ -13,13 +14,16 @@ class Brick {
 		this.name = data.name = ""
 		// this.world = null
 	}
+
 	getClusterKey() {
 		const pos = this.position
 		return `${Math.round(pos.x / 256)} ${Math.round(pos.y / 256)} ${Math.round(pos.z / 256)}`
 	}
+
 	createMesh() {
 		return this.mesher.createMesh(this)
 	}
+
 	clone() {
 		return new Brick({
 			position: this.position.clone(),
@@ -30,8 +34,9 @@ class Brick {
 			mesher: this.mesher
 		})
 	}
+
 	serialize(format = "brk") {
-		if (format === "brk")  {
+		if (format === "brk") {
 			let string = `${this.position.x - (this.scale.x / 2)} ${this.position.z - (this.scale.z / 2)} ${this.position.y - (this.scale.y / 2)} ${this.scale.x} ${this.scale.z} ${this.scale.y} ${this.color.r} ${this.color.g} ${this.color.b} ${this.alpha}\r\n`
 			if (this.name) {
 				string += `	+NAME ${this.name}\r\n`

@@ -8,6 +8,7 @@ const EventEmitter = require('events')
 
 // scale gizmo (is actually several single axis gizmos)
 class ScaleFaker extends EventEmitter {
+
 	constructor(scene) {
 		super()
 		const vectors = [
@@ -44,6 +45,7 @@ class ScaleFaker extends EventEmitter {
 			this.gizmos.push(gizmo)
 		})
 	}
+
 	attachToPosition(vec3) {
 		let target = this.targetMesh
 		if (!vec3) {
@@ -55,6 +57,7 @@ class ScaleFaker extends EventEmitter {
 		this.currentAttached = target
 		this.updateAttachedMesh()
 	}
+
 	updateAttachedMesh() {
 		let target = this.currentAttached
 		if (!this.active) target = null
@@ -62,6 +65,7 @@ class ScaleFaker extends EventEmitter {
 			gizmo.attachedMesh = target
 		})
 	}
+
 	setActive(bool) {
 		this.active = bool
 		this.updateAttachedMesh()
@@ -109,5 +113,5 @@ module.exports = {
 	positionGizmo,
 	// scaleGizmo,
 	utilLayer,
-	scaleFaker
+	scaleFaker,
 }

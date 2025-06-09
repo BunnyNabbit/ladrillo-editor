@@ -1,9 +1,11 @@
 const MesherBase = require("./MesherBase.js")
 const { scene } = require("../../scene.js")
 class BrickMesher extends MesherBase {
+
 	constructor() {
 		super("")
 	}
+
 	createMesh(brick) {
 		const scale = brick.scale
 		let x = 1 - (scale.x / 1)

@@ -6,9 +6,9 @@ meshers.set("cylinder", require("./CylinderMesher.js"))
 meshers.set("", require("./BrickMesher.js"))
 
 function getFromName(name) {
-   let mesher = meshers.get(name)
-   if (mesher) return mesher
-   return meshers.get("default")
+	let mesher = meshers.get(name)
+	if (mesher) return mesher
+	return meshers.get("default")
 }
 
 module.exports = { Mesher, getFromName }

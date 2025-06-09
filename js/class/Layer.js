@@ -1,5 +1,5 @@
 class Layer {
-   constructor(position, boundingBox) {
-      
-   }
+	constructor(position, boundingBox) {
+
+	}
 }

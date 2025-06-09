@@ -1,4 +1,5 @@
 class Cluster extends BABYLON.SolidParticleSystem {
+
 	constructor(scene, world, positionKey) {
 		super("cluster", scene, { expandable: true })
 		this.bricks = []
@@ -11,9 +12,11 @@ class Cluster extends BABYLON.SolidParticleSystem {
 
 		this.refresh()
 	}
+
 	addBricks(bricks) {
 		this.setParticles(bricks, true)
 	}
+
 	removeBricks(bricks) {
 		// https://stackoverflow.com/a/44204227
 		const original = this.bricks
@@ -39,6 +42,7 @@ class Cluster extends BABYLON.SolidParticleSystem {
 		this.sps.setParticles()
 		this.sps.refreshVisibleSize()
 	}
+
 	setParticles(bricks, add) {
 		// prepare shapes
 
@@ -63,6 +67,7 @@ class Cluster extends BABYLON.SolidParticleSystem {
 		this.sps.setParticles()
 		this.sps.refreshVisibleSize()
 	}
+
 	refresh() {
 		if (this.sps) {
 			this.mesh.dispose()
@@ -82,6 +87,7 @@ class Cluster extends BABYLON.SolidParticleSystem {
 			this.mesh.isPickable = false
 		}
 	}
+
 	flushChanges() {
 		this.addBricks(this.pendingBricks)
 		this.pendingBricks = []

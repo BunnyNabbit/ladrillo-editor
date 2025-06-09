@@ -2,6 +2,7 @@ const pressed = require("../input.js").pressed
 const { scene } = require("../scene.js")
 
 class CameraCursor {
+
 	constructor(scene) {
 		this.mesh = BABYLON.MeshBuilder.CreateLines("", {
 			points: [new BABYLON.Vector3(0, -1, 0), new BABYLON.Vector3(0, 1, 0), new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(-1, 0, 0), new BABYLON.Vector3(1, 0, 0), new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 0, -1), new BABYLON.Vector3(0, 0, 1)]

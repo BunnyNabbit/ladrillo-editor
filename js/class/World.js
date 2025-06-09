@@ -9,7 +9,9 @@ function getRandomUUID() {
 	return randomIntFromInterval(0, Number.MAX_SAFE_INTEGER)
 }
 
-class World { // Cluster manager
+/** Cluster manager */
+class World {
+
 	constructor(scene) {
 		this.scene = scene
 		this.clusters = new Map() // SPS
@@ -18,6 +20,7 @@ class World { // Cluster manager
 		this.setBaseplate(100, new BABYLON.Color3(1, 1, 1))
 		this.net = null
 	}
+
 	addBricks(bricks, networked = false) {
 		const map = new Map()
 
@@ -48,6 +51,7 @@ class World { // Cluster manager
 			cluster.flushChanges()
 		})
 	}
+
 	removeBricks(bricks, networked = false) {
 		const map = new Map()
 
@@ -73,9 +77,11 @@ class World { // Cluster manager
 			element.cluster.removeBricks(element.bricks)
 		})
 	}
+
 	removeCluster(cluster) { // ⚠: this doesn't dispose the cluster, just removes it from the world index
 		this.clusters.delete(cluster.positionKey)
 	}
+
 	getAllBricks() {
 		const bricks = []
 		this.clusters.forEach(cluster => {
@@ -83,6 +89,7 @@ class World { // Cluster manager
 		})
 		return bricks
 	}
+
 	setBaseplate(size, color) {
 		const brick = new Brick()
 		brick.scale.x = size
