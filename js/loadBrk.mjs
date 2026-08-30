@@ -30,7 +30,7 @@ class Brick {
 	}
 }
 
-function loadBrk(brkString) {
+export function loadBrk(brkString) {
 	const FILE = brkString
 
 	const LINES = FILE.split("\n")
@@ -188,4 +188,4 @@ function loadBrk(brkString) {
 	}
 }
 
-module.exports = loadBrk
+export default loadBrk

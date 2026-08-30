@@ -1,6 +1,6 @@
-const scene = require("./scene.js").scene
+import { scene } from "./scene.mjs"
 
-const input = {
+export const input = {
 	pressed: new Set(),
 }
 
@@ -25,4 +25,4 @@ currentActions.push(
 	)
 )
 
-module.exports = input
+export default input

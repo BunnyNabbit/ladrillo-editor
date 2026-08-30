@@ -1,10 +1,10 @@
-const { scene } = require("./scene")
-const BrickMesher = require("./class/mesher/BrickMesher.js")
+import { scene } from "./scene.mjs"
+import BrickMesher from "./class/mesher/BrickMesher.mjs"
 // Create utility layer the gizmos will be rendered on
-const utilLayer = new BABYLON.UtilityLayerRenderer(scene)
+export const utilLayer = new BABYLON.UtilityLayerRenderer(scene)
 // Create the gizmo
-const positionGizmo = new BABYLON.PositionGizmo(utilLayer, 8)
-const EventEmitter = require("@foxify/events").default
+export const positionGizmo = new BABYLON.PositionGizmo(utilLayer, 8)
+import { EventEmitter } from "@foxify/events"
 
 // scale gizmo (is actually several single axis gizmos)
 class ScaleFaker extends EventEmitter {
@@ -73,7 +73,7 @@ class ScaleFaker extends EventEmitter {
 		this.updateAttachedMesh()
 	}
 }
-const scaleFaker = new ScaleFaker(scene)
+export const scaleFaker = new ScaleFaker(scene)
 
 // const scaleGizmo = new BABYLON.ScaleGizmo(utilLayer, 8)
 // scaleGizmo.snapDistance = 1
@@ -108,11 +108,4 @@ positionGizmo.setActive = function (bool) {
 	} else {
 		positionGizmo.attachedMesh = null
 	}
-}
-
-module.exports = {
-	positionGizmo,
-	// scaleGizmo,
-	utilLayer,
-	scaleFaker,
 }

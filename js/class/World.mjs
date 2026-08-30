@@ -1,6 +1,6 @@
-const BrickMesher = require("./mesher/BrickMesher.js")
-const Brick = require("./Brick.js")
-const Cluster = require("./Cluster.js")
+import BrickMesher from "./mesher/BrickMesher.mjs"
+import Brick from "./Brick.mjs"
+import Cluster from "./Cluster.mjs"
 
 function randomIntFromInterval(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min)
@@ -10,7 +10,7 @@ function getRandomUUID() {
 }
 
 /** Cluster manager */
-class World {
+export class World {
 	/**/
 	constructor(scene) {
 		this.scene = scene
@@ -103,4 +103,4 @@ class World {
 	}
 }
 
-module.exports = World
+export default World

@@ -1,4 +1,4 @@
-class Cluster extends BABYLON.SolidParticleSystem {
+export class Cluster extends BABYLON.SolidParticleSystem {
 	/**/
 	constructor(scene, world, positionKey) {
 		super("cluster", scene, { expandable: true })
@@ -94,4 +94,4 @@ class Cluster extends BABYLON.SolidParticleSystem {
 	}
 }
 
-module.exports = Cluster
+export default Cluster

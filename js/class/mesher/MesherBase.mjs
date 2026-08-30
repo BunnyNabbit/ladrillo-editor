@@ -1,4 +1,4 @@
-class MesherBase {
+export class MesherBase {
 	/**/
 	constructor(name) {
 		this.name = name
@@ -8,4 +8,4 @@ class MesherBase {
 
 	loadExternalData() {}
 }
-module.exports = MesherBase
+export default MesherBase

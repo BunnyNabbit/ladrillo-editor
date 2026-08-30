@@ -1,5 +1,5 @@
-const MesherBase = require("./MesherBase.js")
-const { scene } = require("../../scene.js")
+import MesherBase from "./MesherBase.mjs"
+import { scene } from "../../scene.mjs"
 const nullUv = new BABYLON.Vector4(0, 0, 0.001, 0.001)
 class CylinderMesher extends MesherBase {
 	/**/
@@ -20,4 +20,4 @@ class CylinderMesher extends MesherBase {
 	}
 }
 
-module.exports = new CylinderMesher()
+export default new CylinderMesher()

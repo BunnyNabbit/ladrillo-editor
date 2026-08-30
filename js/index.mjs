@@ -1,8 +1,7 @@
-let BABYLON = require("babylonjs")
+import BABYLON from "babylonjs"
+import { scene, canvas, engine } from "./scene.mjs"
 
-const { scene, canvas, engine } = require("./scene")
-
-const CameraCursor = require("./class/CameraCursor.js")
+import CameraCursor from "./class/CameraCursor.mjs"
 
 const cameraCursor = new CameraCursor(scene)
 cameraCursor.camera.attachControl(canvas, false)
@@ -19,7 +18,7 @@ engine.runRenderLoop(function () {
 
 // mousy input
 
-const { positionGizmo, scaleFaker } = require("./gizmos.js")
+import { positionGizmo, scaleFaker } from "./gizmos.mjs"
 
 scene.onPointerObservable.add((pointerInfo) => {
 	// if (pointerInfo.event.button == 2) console.log(pointerInfo.type)
@@ -53,8 +52,8 @@ function handleClick(pointerInfo) {
 	}
 }
 
-const World = require("./class/World.js")
-const Brick = require("./class/Brick.js")
+import World from "./class/World.mjs"
+import Brick from "./class/Brick.mjs"
 
 const world = new World(scene)
 
@@ -63,7 +62,7 @@ function randomIntFromInterval(min, max) {
 }
 
 const bricks = []
-const loadBrk = require("./loadBrk.js")
+import loadBrk from "./loadBrk.mjs"
 
 const GIZMO_MOVE = 1
 const GIZMO_SIZE = 2
@@ -71,8 +70,8 @@ const GIZMO_DRAG = 2
 let activeGizmo = GIZMO_MOVE
 let activeSelection = null
 
-const { playSound } = require("./sound.js")
-const Cluster = require("./class/Cluster.js")
+import { playSound } from "./sound.mjs"
+import Cluster from "./class/Cluster.mjs"
 
 scaleFaker.on("update", (difference, vector) => {
 	if (activeSelection) {
@@ -355,8 +354,8 @@ destroyEverything.onclick = () => {
 		processingSound.volume = 0
 	}
 }
+import serializeWorld from "./saveBrk.mjs"
 saveButton.onclick = () => {
-	const serializeWorld = require("./saveBrk.js")
 	function download(string) {
 		// https://stackoverflow.com/a/69581578
 		let element = document.createElement("a")

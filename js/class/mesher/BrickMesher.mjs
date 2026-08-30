@@ -1,5 +1,5 @@
-const MesherBase = require("./MesherBase.js")
-const { scene } = require("../../scene.js")
+import MesherBase from "./MesherBase.mjs"
+import { scene } from "../../scene.mjs"
 class BrickMesher extends MesherBase {
 	/**/
 	constructor() {
@@ -23,4 +23,4 @@ class BrickMesher extends MesherBase {
 	}
 }
 
-module.exports = new BrickMesher()
+export default new BrickMesher()

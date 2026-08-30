@@ -13,7 +13,7 @@ let flacSupported = false
 	if (testAudio.canPlayType("audio/flac") === "probably") flacSupported = true
 }
 
-function playSound(data) {
+export function playSound(data) {
 	thrott++
 	if (thrott > 5) return
 	// if (!settingsSound) return
@@ -35,8 +35,4 @@ function playSound(data) {
 	}
 	data.volume = 1
 	$buzz.play(data)
-}
-
-module.exports = {
-	playSound,
 }

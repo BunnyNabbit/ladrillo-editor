@@ -1,7 +1,8 @@
-const pressed = require("../input.js").pressed
-const { scene } = require("../scene.js")
+import { input } from "../input.mjs"
+const { pressed } = input
+import { scene } from "../scene.mjs"
 
-class CameraCursor {
+export class CameraCursor {
 	/**/
 	constructor(scene) {
 		this.mesh = BABYLON.MeshBuilder.CreateLines(
@@ -47,4 +48,4 @@ class CameraCursor {
 	}
 }
 
-module.exports = CameraCursor
+export default CameraCursor

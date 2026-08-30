@@ -1,8 +1,8 @@
-const BABYLON = require("babylonjs")
-const BrickMesher = require("./mesher/BrickMesher.js")
-const meshers = require("./mesher/index.js")
+import BABYLON from "babylonjs"
+import BrickMesher from "./mesher/BrickMesher.mjs"
+import meshers from "./mesher/index.mjs"
 
-class Brick {
+export class Brick {
 	/**/
 	constructor(data = {}) {
 		this.position = data.position ?? new BABYLON.Vector3(0, 0, 0)
@@ -49,4 +49,4 @@ class Brick {
 	}
 }
 
-module.exports = Brick
+export default Brick

@@ -1,8 +1,8 @@
-let BABYLON = require("babylonjs")
+import BABYLON from "babylonjs"
 
-const canvas = document.getElementById("renderCanvas") // Get the canvas element
+export const canvas = document.getElementById("renderCanvas") // Get the canvas element
 
-const engine = new BABYLON.Engine(canvas, true) // Generate the BABYLON 3D engine
+export const engine = new BABYLON.Engine(canvas, true) // Generate the BABYLON 3D engine
 
 const createScene = () => {
 	// Create a basic BJS Scene object.
@@ -14,9 +14,9 @@ const createScene = () => {
 
 	return scene
 }
-const scene = createScene()
+export const scene = createScene()
 
-const testData = require("./testData.js")
+import testData from "./testData.mjs"
 
 scene.defaultMaterial.bumpTexture = new BABYLON.Texture.CreateFromBase64String("data:image/png;base64," + testData.numpsTexture)
 
@@ -25,9 +25,3 @@ scene.hl = new BABYLON.HighlightLayer("hl1", scene)
 canvas.addEventListener("onclick", () => {
 	$buzz.context().resume()
 })
-
-module.exports = {
-	scene,
-	canvas,
-	engine,
-}
