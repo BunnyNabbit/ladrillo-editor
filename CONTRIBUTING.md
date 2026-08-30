@@ -19,6 +19,7 @@ Do not introduce global variables.
 #### Variable names
 
 Variables names are cased differently based on usage type.
+
 - Use PascalCase for classes.
 - Use camelCase for anything else.
 
