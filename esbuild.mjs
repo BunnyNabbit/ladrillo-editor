@@ -1,7 +1,7 @@
 import * as esbuild from "esbuild"
 
 await esbuild.build({
-	entryPoints: ["./js/index.js"],
+	entryPoints: ["./js/index.mjs"],
 	outdir: "dist",
 	bundle: true,
 	platform: "browser",
