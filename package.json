@@ -10,10 +10,12 @@
   "license": "MIT",
   "packageManager": "pnpm@10.34.5+sha512.a4ee05f2f73658255bd6a89859c065a45c28a57daefae2c893a168ee2b73168c37b91e83e57ea67654ad03f03031746430e8bce38e362e042605fb8abc80192e",
   "dependencies": {
+    "@foxify/events": "^2.1.0",
     "babylonjs": "^4.2.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "esbuild": "^0.28.2",
     "prettier": "^3.8.5",
     "prettier-plugin-drone-class": "^0.1.0",
     "prettier-plugin-drone-jsdoc": "^1.8.0"

@@ -4,7 +4,7 @@ const BrickMesher = require("./class/mesher/BrickMesher.js")
 const utilLayer = new BABYLON.UtilityLayerRenderer(scene)
 // Create the gizmo
 const positionGizmo = new BABYLON.PositionGizmo(utilLayer, 8)
-const EventEmitter = require("events")
+const EventEmitter = require("@foxify/events").default
 
 // scale gizmo (is actually several single axis gizmos)
 class ScaleFaker extends EventEmitter {
