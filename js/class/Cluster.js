@@ -1,5 +1,5 @@
 class Cluster extends BABYLON.SolidParticleSystem {
-
+	/**/
 	constructor(scene, world, positionKey) {
 		super("cluster", scene, { expandable: true })
 		this.bricks = []
@@ -21,7 +21,7 @@ class Cluster extends BABYLON.SolidParticleSystem {
 		// https://stackoverflow.com/a/44204227
 		const original = this.bricks
 		const toRemove = new Set(bricks)
-		const difference = original.filter(x => !toRemove.has(x))
+		const difference = original.filter((x) => !toRemove.has(x))
 		this.bricks = difference
 
 		if (!this.bricks.length) {
@@ -34,7 +34,7 @@ class Cluster extends BABYLON.SolidParticleSystem {
 			return
 		}
 
-		bricks.forEach(brickParticle => {
+		bricks.forEach((brickParticle) => {
 			const idx = brickParticle.particle.idx
 			this.sps.removeParticles(idx, idx)
 		})
@@ -47,7 +47,7 @@ class Cluster extends BABYLON.SolidParticleSystem {
 		// prepare shapes
 
 		const oldCont = this.sps.nbParticles
-		bricks.forEach(brick => {
+		bricks.forEach((brick) => {
 			const mesh = brick.createMesh()
 			this.sps.addShape(mesh, 1)
 			mesh.dispose()

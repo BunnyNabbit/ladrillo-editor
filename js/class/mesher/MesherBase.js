@@ -1,11 +1,11 @@
 class MesherBase {
-
+	/**/
 	constructor(name) {
 		this.name = name
 	}
 
-	createMeshObject() { }
+	createMeshObject() {}
 
-	loadExternalData() { }
+	loadExternalData() {}
 }
 module.exports = MesherBase

@@ -5,5 +5,5 @@ function detectMobile() {
 }
 
 module.exports = {
-	detectMobile
+	detectMobile,
 }

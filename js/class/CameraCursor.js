@@ -2,11 +2,15 @@ const pressed = require("../input.js").pressed
 const { scene } = require("../scene.js")
 
 class CameraCursor {
-
+	/**/
 	constructor(scene) {
-		this.mesh = BABYLON.MeshBuilder.CreateLines("", {
-			points: [new BABYLON.Vector3(0, -1, 0), new BABYLON.Vector3(0, 1, 0), new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(-1, 0, 0), new BABYLON.Vector3(1, 0, 0), new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 0, -1), new BABYLON.Vector3(0, 0, 1)]
-		}, scene)
+		this.mesh = BABYLON.MeshBuilder.CreateLines(
+			"",
+			{
+				points: [new BABYLON.Vector3(0, -1, 0), new BABYLON.Vector3(0, 1, 0), new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(-1, 0, 0), new BABYLON.Vector3(1, 0, 0), new BABYLON.Vector3(0, 0, 0), new BABYLON.Vector3(0, 0, -1), new BABYLON.Vector3(0, 0, 1)],
+			},
+			scene
+		)
 		this.mesh.isPickable = false
 
 		this.camera = new BABYLON.ArcRotateCamera("camera", 0, Math.PI / 2, 3, null, scene)
@@ -39,11 +43,7 @@ class CameraCursor {
 		}
 
 		let normal_move = new BABYLON.Vector2(x_movement, z_movement).normalize().scale(1)
-		this.mesh.position.addInPlace(new BABYLON.Vector3(
-			normal_move.y * normal_dir.x + normal_move.x * normal_dir.y,
-			y_movement,
-			normal_move.y * normal_dir.y - normal_move.x * normal_dir.x
-		).multiplyByFloats(deltaTime, deltaTime, deltaTime))
+		this.mesh.position.addInPlace(new BABYLON.Vector3(normal_move.y * normal_dir.x + normal_move.x * normal_dir.y, y_movement, normal_move.y * normal_dir.y - normal_move.x * normal_dir.x).multiplyByFloats(deltaTime, deltaTime, deltaTime))
 	}
 }
 

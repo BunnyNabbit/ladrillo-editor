@@ -3,7 +3,7 @@ const BrickMesher = require("./mesher/BrickMesher.js")
 const meshers = require("./mesher/index.js")
 
 class Brick {
-
+	/**/
 	constructor(data = {}) {
 		this.position = data.position ?? new BABYLON.Vector3(0, 0, 0)
 		this.rotation = data.rotation ?? 0
@@ -31,13 +31,13 @@ class Brick {
 			scale: this.scale.clone(),
 			color: this.color.clone(),
 			alpha: this.alpha,
-			mesher: this.mesher
+			mesher: this.mesher,
 		})
 	}
 
 	serialize(format = "brk") {
 		if (format === "brk") {
-			let string = `${this.position.x - (this.scale.x / 2)} ${this.position.z - (this.scale.z / 2)} ${this.position.y - (this.scale.y / 2)} ${this.scale.x} ${this.scale.z} ${this.scale.y} ${this.color.r} ${this.color.g} ${this.color.b} ${this.alpha}\r\n`
+			let string = `${this.position.x - this.scale.x / 2} ${this.position.z - this.scale.z / 2} ${this.position.y - this.scale.y / 2} ${this.scale.x} ${this.scale.z} ${this.scale.y} ${this.color.r} ${this.color.g} ${this.color.b} ${this.alpha}\r\n`
 			if (this.name) {
 				string += `	+NAME ${this.name}\r\n`
 			}

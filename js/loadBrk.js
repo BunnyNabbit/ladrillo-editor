@@ -8,12 +8,12 @@ function convertRGB(r, g, b) {
 	r = Number(r)
 	g = Number(g)
 	b = Number(b)
-	r *= 255, g *= 255, b *= 255
+	;((r *= 255), (g *= 255), (b *= 255))
 	return [Math.ceil(r), Math.ceil(g), Math.ceil(b)]
 }
 
 class Vector3 {
-
+	/**/
 	constructor(x = 0, y = 0, z = 0) {
 		this.x = x
 		this.y = y
@@ -22,7 +22,7 @@ class Vector3 {
 }
 
 class Brick {
-
+	/**/
 	constructor(position, scale, color) {
 		this.position = position
 		this.scale = scale
@@ -52,7 +52,6 @@ function loadBrk(brkString) {
 	let scriptRemark = false
 
 	for (let line of LINES) {
-
 		totalLines++
 
 		line = line.trim()
@@ -111,8 +110,7 @@ function loadBrk(brkString) {
 			}
 			case "SHAPE": {
 				bricks[currentBrick].shape = VALUE
-				if (VALUE === "spawnpoint")
-					spawns.push(bricks[currentBrick])
+				if (VALUE === "spawnpoint") spawns.push(bricks[currentBrick])
 				continue
 			}
 			case "MODEL": {
@@ -138,7 +136,7 @@ function loadBrk(brkString) {
 				continue
 			}
 			case "LIGHT": {
-				const colors = VALUE.split(' ')
+				const colors = VALUE.split(" ")
 				const lightRange = colors[3]
 				const RGB = convertRGB(colors[0], colors[1], colors[2])
 				bricks[currentBrick].lightEnabled = true
@@ -162,18 +160,10 @@ function loadBrk(brkString) {
 				xScale = Number(DATA[3]),
 				yScale = Number(DATA[4]),
 				zScale = Number(DATA[5]),
-				color = rgbToHex(
-					RGB[0],
-					RGB[1],
-					RGB[2]
-				),
+				color = rgbToHex(RGB[0], RGB[1], RGB[2]),
 				transparency = Number(DATA[9])
 
-			const newBrick = new Brick(
-				new Vector3(xPos, yPos, zPos),
-				new Vector3(xScale, yScale, zScale),
-				color
-			)
+			const newBrick = new Brick(new Vector3(xPos, yPos, zPos), new Vector3(xScale, yScale, zScale), color)
 
 			newBrick.visibility = transparency
 
@@ -194,7 +184,7 @@ function loadBrk(brkString) {
 		// tools: tools,
 		bricks: bricks,
 		environment: environment,
-		spawns: spawns
+		spawns: spawns,
 	}
 }
 

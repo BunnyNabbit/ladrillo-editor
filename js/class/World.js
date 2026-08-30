@@ -11,7 +11,7 @@ function getRandomUUID() {
 
 /** Cluster manager */
 class World {
-
+	/**/
 	constructor(scene) {
 		this.scene = scene
 		this.clusters = new Map() // SPS
@@ -24,7 +24,7 @@ class World {
 	addBricks(bricks, networked = false) {
 		const map = new Map()
 
-		bricks.forEach(brick => {
+		bricks.forEach((brick) => {
 			if (this.net && !brick.uuid) brick.uuid = getRandomUUID()
 			if (brick.uuid) this.referenceUUID.set(brick.uuid, brick)
 			let cluster = null
@@ -47,7 +47,7 @@ class World {
 			cluster.pendingBricks.push(brick)
 		})
 
-		map.forEach(cluster => {
+		map.forEach((cluster) => {
 			cluster.flushChanges()
 		})
 	}
@@ -55,7 +55,7 @@ class World {
 	removeBricks(bricks, networked = false) {
 		const map = new Map()
 
-		bricks.forEach(brick => {
+		bricks.forEach((brick) => {
 			if (this.net) this.referenceUUID.delete(brick.uuid)
 			let element = null
 			getCluster: {
@@ -73,19 +73,20 @@ class World {
 			element.bricks.push(brick)
 		})
 
-		map.forEach(element => {
+		map.forEach((element) => {
 			element.cluster.removeBricks(element.bricks)
 		})
 	}
 
-	removeCluster(cluster) { // ⚠: this doesn't dispose the cluster, just removes it from the world index
+	removeCluster(cluster) {
+		// ⚠: this doesn't dispose the cluster, just removes it from the world index
 		this.clusters.delete(cluster.positionKey)
 	}
 
 	getAllBricks() {
 		const bricks = []
-		this.clusters.forEach(cluster => {
-			cluster.bricks.forEach(brick => bricks.push(brick))
+		this.clusters.forEach((cluster) => {
+			cluster.bricks.forEach((brick) => bricks.push(brick))
 		})
 		return bricks
 	}

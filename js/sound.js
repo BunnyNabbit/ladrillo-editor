@@ -9,8 +9,8 @@ const debounce = new Set()
 let flacSupported = false
 {
 	// Create an audio element so we can use the canPlayType method
-	const testAudio = document.createElement('audio')
-	if (testAudio.canPlayType('audio/flac') === "probably") flacSupported = true
+	const testAudio = document.createElement("audio")
+	if (testAudio.canPlayType("audio/flac") === "probably") flacSupported = true
 }
 
 function playSound(data) {
@@ -38,5 +38,5 @@ function playSound(data) {
 }
 
 module.exports = {
-	playSound
+	playSound,
 }

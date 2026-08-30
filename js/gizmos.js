@@ -4,11 +4,11 @@ const BrickMesher = require("./class/mesher/BrickMesher.js")
 const utilLayer = new BABYLON.UtilityLayerRenderer(scene)
 // Create the gizmo
 const positionGizmo = new BABYLON.PositionGizmo(utilLayer, 8)
-const EventEmitter = require('events')
+const EventEmitter = require("events")
 
 // scale gizmo (is actually several single axis gizmos)
 class ScaleFaker extends EventEmitter {
-
+	/**/
 	constructor(scene) {
 		super()
 		const vectors = [
@@ -19,6 +19,7 @@ class ScaleFaker extends EventEmitter {
 			[new BABYLON.Vector3(0, 0, 1), "#00b894"],
 			[new BABYLON.Vector3(0, 0, -1), "#00b894"],
 		]
+
 		this.gizmos = []
 		this.forcedPosition = new BABYLON.Vector3(0, 0, 0)
 		this.targetMesh = new BABYLON.Mesh("scaleFaker", scene)
@@ -26,7 +27,7 @@ class ScaleFaker extends EventEmitter {
 		this.currentAttached = null
 		this.active = false
 
-		vectors.forEach(datum => {
+		vectors.forEach((datum) => {
 			const vector = datum[0]
 			const color = datum[1]
 			var gizmo = new BABYLON.AxisDragGizmo(vector, BABYLON.Color3.FromHexString(color), utilLayer, null, 8)
@@ -35,7 +36,8 @@ class ScaleFaker extends EventEmitter {
 			gizmo.updateGizmoRotationToMatchAttachedMesh = false
 			gizmo.updateGizmoPositionToMatchAttachedMesh = true
 			gizmo.onSnapObservable.add((event) => {
-				setTimeout(() => { // very pitiful. i have to do this because the mesh is updated after this function is fired
+				setTimeout(() => {
+					// very pitiful. i have to do this because the mesh is updated after this function is fired
 					const differenceVector3 = this.targetMesh.position.subtract(this.forcedPosition)
 					this.forcedPosition = new BABYLON.Vector3(this.targetMesh.position.x, this.targetMesh.position.y, this.targetMesh.position.z)
 					// this.targetMesh.position = new BABYLON.Vector3(this.forcedPosition.x, this.forcedPosition.y, this.forcedPosition.z)
@@ -61,7 +63,7 @@ class ScaleFaker extends EventEmitter {
 	updateAttachedMesh() {
 		let target = this.currentAttached
 		if (!this.active) target = null
-		this.gizmos.forEach(gizmo => {
+		this.gizmos.forEach((gizmo) => {
 			gizmo.attachedMesh = target
 		})
 	}
@@ -83,7 +85,6 @@ const scaleFaker = new ScaleFaker(scene)
 // scaleFaker.scaling = new BABYLON.Vector3(1, 1, 1)
 // const scaleFaker = BrickMesher.createMesh({scale: new BABYLON.Vector3(0.01, 0.01, 0.01)})
 // scaleFaker.scaling = new BABYLON.Vector3(1000, 1000, 1000)
-
 
 // positionGizmo.planarGizmoEnabled = true // sadly, this doesn't behave well with snapDistance
 positionGizmo.attachedMesh = null

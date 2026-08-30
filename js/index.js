@@ -1,4 +1,4 @@
-let BABYLON = require('babylonjs')
+let BABYLON = require("babylonjs")
 
 const { scene, canvas, engine } = require("./scene")
 
@@ -6,7 +6,6 @@ const CameraCursor = require("./class/CameraCursor.js")
 
 const cameraCursor = new CameraCursor(scene)
 cameraCursor.camera.attachControl(canvas, false)
-
 
 // Watch for browser/canvas resize events
 window.addEventListener("resize", function () {
@@ -24,19 +23,21 @@ const { positionGizmo, scaleFaker } = require("./gizmos.js")
 
 scene.onPointerObservable.add((pointerInfo) => {
 	// if (pointerInfo.event.button == 2) console.log(pointerInfo.type)
-	if (pointerInfo.event.button == 2) { // hold
+	if (pointerInfo.event.button == 2) {
+		// hold
 		if (pointerInfo.type == 1) {
 			if (canvas.requestPointerLock) {
 				canvas.requestPointerLock()
 			}
-		} else if (pointerInfo.type == 2) { // release
+		} else if (pointerInfo.type == 2) {
+			// release
 			document.exitPointerLock()
 		}
 	}
 	switch (pointerInfo.type) {
 		case BABYLON.PointerEventTypes.POINTERDOWN:
 			handleClick(pointerInfo)
-			break;
+			break
 		case 4:
 			if (pointerInfo.event.buttons === 3) break
 			handleClick(pointerInfo)
@@ -57,8 +58,6 @@ const Brick = require("./class/Brick.js")
 
 const world = new World(scene)
 
-
-
 function randomIntFromInterval(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min)
 }
@@ -75,33 +74,34 @@ let activeSelection = null
 const { playSound } = require("./sound.js")
 const Cluster = require("./class/Cluster.js")
 
-
 scaleFaker.on("update", (difference, vector) => {
 	if (activeSelection) {
 		function remark(brick) {
 			playSound({
 				url: "https://bunnynabbit.com/audio/64err.ogg",
-				debounce: 100
+				debounce: 100,
 			})
 		}
-		for (let i = 0; i < activeSelection.bricks.length; i++) { // validate scale
+		for (let i = 0; i < activeSelection.bricks.length; i++) {
+			// validate scale
 			const brick = activeSelection.bricks[i]
-			if (brick.scale.x + (difference.x * vector.x) <= 0) return remark(brick)
-			if (brick.scale.y + (difference.y * vector.y) <= 0) return remark(brick)
-			if (brick.scale.z + (difference.z * vector.z) <= 0) return remark(brick)
+			if (brick.scale.x + difference.x * vector.x <= 0) return remark(brick)
+			if (brick.scale.y + difference.y * vector.y <= 0) return remark(brick)
+			if (brick.scale.z + difference.z * vector.z <= 0) return remark(brick)
 		}
-		activeSelection.bricks.forEach(brick => { // do it
+		activeSelection.bricks.forEach((brick) => {
+			// do it
 			brick.position.x += (difference.x * Math.abs(vector.x)) / 2
 			brick.position.y += (difference.y * Math.abs(vector.y)) / 2
 			brick.position.z += (difference.z * Math.abs(vector.z)) / 2
-			brick.scale.x += (difference.x * vector.x)
-			brick.scale.y += (difference.y * vector.y)
-			brick.scale.z += (difference.z * vector.z)
+			brick.scale.x += difference.x * vector.x
+			brick.scale.y += difference.y * vector.y
+			brick.scale.z += difference.z * vector.z
 		})
 		refreshSelection()
 		playSound({
 			url: "https://bunnynabbit.com/audio/camera.ogg",
-			debounce: 100
+			debounce: 100,
 		})
 	}
 })
@@ -109,7 +109,7 @@ scaleFaker.on("update", (difference, vector) => {
 let processing = false
 function unselect() {
 	if (!activeSelection) return false
-	activeSelection.bricks.forEach(brick => {
+	activeSelection.bricks.forEach((brick) => {
 		brick.position.x -= activeSelection.offset.x - activeSelection.mesh.position.x
 		brick.position.y -= activeSelection.offset.y - activeSelection.mesh.position.y
 		brick.position.z -= activeSelection.offset.z - activeSelection.mesh.position.z
@@ -120,7 +120,7 @@ function unselect() {
 	scaleFaker.attachToPosition(null)
 	positionGizmo.attach(null)
 	playSound({
-		url: "https://bunnynabbit.com/audio/unselect.ogg"
+		url: "https://bunnynabbit.com/audio/unselect.ogg",
 	})
 	propsPanel.classList.add("hidden")
 	return true
@@ -131,7 +131,9 @@ function leftClick(modifiers, pickResult) {
 			unselect()
 		} else return
 	}
-	if (pickResult.pickedMesh.name !== "cluster") { return }
+	if (pickResult.pickedMesh.name !== "cluster") {
+		return
+	}
 
 	var picked = pickResult.pickedMesh.sps.pickedParticle(pickResult)
 	var idx = picked.idx
@@ -165,14 +167,14 @@ function leftClick(modifiers, pickResult) {
 	scaleFaker.attachToPosition(activeSelection.offset)
 	propsPanel.classList.remove("hidden")
 	playSound({
-		url: "https://bunnynabbit.com/audio/pick.ogg"
+		url: "https://bunnynabbit.com/audio/pick.ogg",
 	})
 	processingSound.volume = 0
 }
 window.addEventListener("keydown", (e) => {
 	if (e.key === "Escape") unselect()
 	if (e.key === "Delete") deleteSelection()
-});
+})
 
 let currentShape = ""
 // console.log(scaleFaker)
@@ -182,7 +184,7 @@ addBrick.onclick = () => {
 	brick.position = new BABYLON.Vector3(Math.round(pos.x - 0.5) + 0.5, Math.round(pos.y - 0.5) + 0.5, Math.round(pos.z - 0.5) + 0.5)
 	world.addBricks([brick])
 	playSound({
-		url: "https://bunnynabbit.com/audio/spawnobj.ogg"
+		url: "https://bunnynabbit.com/audio/spawnobj.ogg",
 	})
 }
 
@@ -197,7 +199,7 @@ sizeTool.onclick = () => {
 cloneSelection.onclick = () => {
 	if (activeSelection) {
 		let clones = []
-		activeSelection.bricks.forEach(brick => {
+		activeSelection.bricks.forEach((brick) => {
 			const clone = brick.clone()
 			clones.push(clone)
 			clone.position.x -= activeSelection.offset.x - activeSelection.mesh.position.x
@@ -206,12 +208,12 @@ cloneSelection.onclick = () => {
 		})
 		world.addBricks(clones)
 		playSound({
-			url: "https://bunnynabbit.com/audio/dolly.ogg"
+			url: "https://bunnynabbit.com/audio/dolly.ogg",
 		})
 	} else {
 		playSound({
 			url: "https://bunnynabbit.com/audio/64err.ogg",
-			debounce: 100
+			debounce: 100,
 		})
 	}
 }
@@ -219,7 +221,7 @@ cloneSelection.onclick = () => {
 function updateGizmos(gizmo) {
 	activeGizmo = gizmo
 	if (activeSelection) {
-		activeSelection.bricks.forEach(brick => {
+		activeSelection.bricks.forEach((brick) => {
 			brick.position.x -= activeSelection.offset.x - activeSelection.mesh.position.x
 			brick.position.y -= activeSelection.offset.y - activeSelection.mesh.position.y
 			brick.position.z -= activeSelection.offset.z - activeSelection.mesh.position.z
@@ -245,7 +247,7 @@ const colorPropInput = document.getElementById("propColor")
 colorPropInput.onchange = () => {
 	currentColor = BABYLON.Color3.FromHexString(colorPropInput.value)
 	if (activeSelection) {
-		activeSelection.bricks.forEach(brick => {
+		activeSelection.bricks.forEach((brick) => {
 			brick.color = currentColor
 		})
 		const oldPosition = activeSelection.mesh.position
@@ -253,7 +255,7 @@ colorPropInput.onchange = () => {
 		activeSelection.mesh.position = oldPosition
 		positionGizmo.attach(activeSelection.mesh)
 		playSound({
-			url: "https://bunnynabbit.com/audio/navigate.rawr"
+			url: "https://bunnynabbit.com/audio/navigate.rawr",
 		})
 	}
 }
@@ -264,11 +266,10 @@ function refreshSelection() {
 	positionGizmo.attach(activeSelection.mesh)
 }
 
-
 const fileInput = document.createElement("input")
 fileInput.type = "file"
 fileInput.accept = ".brk"
-fileInput.addEventListener('change', async (event) => {
+fileInput.addEventListener("change", async (event) => {
 	alert("Warning: When you import bricks to Ladrillo, please keep in mind that not all features of the .BRK file may be supported. Expect data loss if you export the file back!")
 	const files = event.target.files
 	if (files.length) {
@@ -276,9 +277,9 @@ fileInput.addEventListener('change', async (event) => {
 		diskSound.currentTime = 0
 		diskSound.play()
 		const data = await event.target.files[0].text()
-		loadBrk(data).bricks.forEach(brick => {
+		loadBrk(data).bricks.forEach((brick) => {
 			const bricc = new Brick({ shape: brick.shape, name: brick.name })
-			bricc.position = new BABYLON.Vector3(brick.position.y + (brick.scale.y / 2), brick.position.z + (brick.scale.z / 2), brick.position.x + (brick.scale.x / 2))
+			bricc.position = new BABYLON.Vector3(brick.position.y + brick.scale.y / 2, brick.position.z + brick.scale.z / 2, brick.position.x + brick.scale.x / 2)
 			bricc.scale = new BABYLON.Vector3(brick.scale.y, brick.scale.z, brick.scale.x)
 			bricc.color = BABYLON.Color3.FromHexString(brick.color)
 			bricks.push(bricc)
@@ -299,30 +300,30 @@ function deleteSelection() {
 		scaleFaker.attachToPosition(null)
 		positionGizmo.attach(null)
 		playSound({
-			url: "https://bunnynabbit.com/audio/remove_brick.ogg"
+			url: "https://bunnynabbit.com/audio/remove_brick.ogg",
 		})
 		deadSelection.isPickable = false
-		const speed = 1.5;
-		const gravity = -0.01;
+		const speed = 1.5
+		const gravity = -0.01
 		for (let p = 0; p < deadSelection.sps.nbParticles; p++) {
 			const particle = deadSelection.sps.particles[p]
-			particle.velocity.x = BABYLON.Scalar.RandomRange(-0.5 * speed, 0.5 * speed);
-			particle.velocity.y = BABYLON.Scalar.RandomRange(0.25 * speed, speed);
-			particle.velocity.z = BABYLON.Scalar.RandomRange(-0.5 * speed, 0.5 * speed);
+			particle.velocity.x = BABYLON.Scalar.RandomRange(-0.5 * speed, 0.5 * speed)
+			particle.velocity.y = BABYLON.Scalar.RandomRange(0.25 * speed, speed)
+			particle.velocity.z = BABYLON.Scalar.RandomRange(-0.5 * speed, 0.5 * speed)
 		}
 		deadSelection.sps.updateParticle = (particle) => {
-			particle.velocity.y += gravity;                  // apply gravity to y
-			particle.position.addInPlace(particle.velocity); // update particle new position
+			particle.velocity.y += gravity // apply gravity to y
+			particle.position.addInPlace(particle.velocity) // update particle new position
 
-			const direction = Math.sin(particle.idx * 0.2); //rotation direction +/- 1 depends on particle index in particles array           // rotation sign and new value
-			particle.rotation.z += 0.1 * direction;
-			particle.rotation.x += 0.05 * direction;
-			particle.rotation.y += 0.008 * direction;
+			const direction = Math.sin(particle.idx * 0.2) //rotation direction +/- 1 depends on particle index in particles array           // rotation sign and new value
+			particle.rotation.z += 0.1 * direction
+			particle.rotation.x += 0.05 * direction
+			particle.rotation.y += 0.008 * direction
 		}
 		const afterRender = scene.onAfterRenderObservable.add(() => {
 			deadSelection.sps.setParticles()
 		})
-		deadSelection.bricks.forEach(brick => {
+		deadSelection.bricks.forEach((brick) => {
 			brick.velocity = new BABYLON.Vector3(Math.random(), Math.random(), Math.random())
 		})
 		setTimeout(() => {
@@ -348,7 +349,7 @@ destroyEverything.onclick = () => {
 		world.removeBricks(bricks)
 		activeSelection.addBricks(bricks)
 		playSound({
-			url: "https://bunnynabbit.com/audio/doomgemgameover.ogg"
+			url: "https://bunnynabbit.com/audio/doomgemgameover.ogg",
 		})
 		deleteSelection()
 		processingSound.volume = 0
@@ -356,11 +357,12 @@ destroyEverything.onclick = () => {
 }
 saveButton.onclick = () => {
 	const serializeWorld = require("./saveBrk.js")
-	function download(string) { // https://stackoverflow.com/a/69581578
-		let element = document.createElement('a')
-		element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(string))
-		element.setAttribute('download', 'save.brk')
-		element.style.display = 'none'
+	function download(string) {
+		// https://stackoverflow.com/a/69581578
+		let element = document.createElement("a")
+		element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(string))
+		element.setAttribute("download", "save.brk")
+		element.style.display = "none"
 		document.body.appendChild(element)
 		element.click()
 		document.body.removeChild(element)
