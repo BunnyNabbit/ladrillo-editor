@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "esbuild": "^0.28.2",
-    "prettier": "^3.8.5",
+    "prettier": "3.8.5",
     "prettier-plugin-drone-class": "^0.1.0",
     "prettier-plugin-drone-jsdoc": "^1.8.0"
   }

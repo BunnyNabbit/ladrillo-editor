@@ -22,7 +22,7 @@ importers:
         specifier: ^0.28.2
         version: 0.28.2
       prettier:
-        specifier: ^3.8.5
+        specifier: 3.8.5
         version: 3.8.5
       prettier-plugin-drone-class:
         specifier: ^0.1.0
